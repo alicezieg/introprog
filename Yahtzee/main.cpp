@@ -1,10 +1,6 @@
 #include <iostream>
 #include <vector>
-//#include <algorithm>
-//sort(dice.begin(), dice.end());
-// reasons i would be a good secretary: attentive, work well with others,organized
-// make a function that caluclates change
-
+#include <cstdlib>
 using namespace std;
 
 int calculateChance(vector<int>dice)
@@ -163,7 +159,7 @@ int countDice (vector <int> dice, int num) {
     int total = 0;
     for (int i = 0; i <dice.size(); i++) {
         if (dice[i] == num) {
-            total = total++;
+            total = total+1;
         }
     }
     return total;
@@ -196,17 +192,24 @@ int calculateLargeStraight (vector<int>dice) {
 
 int calculateFullHouse (vector<int>dice) {
     int score = 0;
+
+    cout << "Checking for full house" << endl;
     sort(dice.begin(), dice.end());
     int num1 = dice [0];
     int num2 = dice [4];
-    if (countDice(dice,num1) >= 2 || countDice(dice,num1) >= 3 && countDice(dice,num2) >= 2 || countDice(dice,num2) >= 3) {
+    cout << "Num1 = " << num1 <<  "  num2 = " << num2 << endl;
+
+    cout << "Num1 count = " << countDice(dice, num1) << endl;
+    cout << "Num2 count = " << countDice(dice, num2) << endl;
+
+    if ((countDice(dice,num1) == 2 && countDice(dice,num2) == 3) || (countDice(dice,num1) == 3 && countDice(dice,num2) == 2)) {
+        cout << "Yay!" << endl;
         score = 25;
     }
+
+    cout << "BOOOO" << endl;
     return score;
 }
-
-
-
 
 int calculateScore (vector<int>dice, int rulenum) {
     int score = 0;
@@ -224,17 +227,17 @@ int calculateScore (vector<int>dice, int rulenum) {
     case 6:
         return calculateSixes(dice);
     case 7:
-        return calculateYahtzee(dice);
-    case 8:
         return calculateThreeOfAKind(dice);
-    case 9:
+    case 8:
         return calculateFourOfAKind(dice);
+    case 9:
+        return calculateFullHouse(dice);
     case 10:
         return calculateSmallStraight(dice);
     case 11:
         return calculateLargeStraight(dice);
     case 12:
-        return calculateFullHouse(dice);
+        return calculateYahtzee(dice);
     case 13:
         return calculateChance(dice);
 
@@ -243,23 +246,219 @@ int calculateScore (vector<int>dice, int rulenum) {
 }
 
 
+vector<int> roll()
+{
 
+    vector<int>dice (5);
+    dice[0] = rand()%6 + 1;
+    dice[1] = rand()%6 + 1;
+    dice[2] = rand()%6 + 1;
+    dice[3] = rand()%6 + 1;
+    dice[4] = rand()%6 + 1;
+
+    return dice;
+
+}
+void displaydice(vector<int>dice) {
+    for (int i = 0; i <dice.size(); i++) {
+        cout << dice[i] << " ";
+    }
+    cout << endl;
+}
+
+vector<int> reRoll(vector<int>dice) {
+    cout << "Would you like to reroll?  " << "y/n" << endl;
+    string z;
+    cin >> z;
+    if (z == "n") {
+        return dice;
+    }
+
+    else {
+        if (z == "y") {
+            cout << "How many dice would you like to reroll?" << endl;
+            int numToReRoll;
+            cin >> numToReRoll;
+            for (int i = 0; i < numToReRoll; i++) {
+                cout << "Which dice would you like to reroll? ";
+                int whichDie;
+                cin >> whichDie;
+                dice[whichDie-1] = rand()%6 + 1;
+
+            }
+
+//            cout << "Would you like to roll again?  " << "y/n" << endl;
+//            string z;
+//            cin >> z;
+//            if (z == "n") {
+//                return dice;
+//            }
+        }
+        else {
+            if (z == "y") {
+                cout << "How many dice would you like to reroll?" << endl;
+                int numToReRoll;
+                cin >> numToReRoll;
+                for (int i = 0; i < numToReRoll; i++) {
+                    cout << "Which dice would you like to reroll? ";
+                    int whichDie;
+                    cin >> whichDie;
+                    dice[whichDie-1] = rand()%6 + 1;
+
+                }
+            }
+        }
+        return dice;
+
+
+    }
+    return dice;
+}
+
+void displayScoreSheet(vector<int>scores, vector<bool> scoreUsed) {
+    if (scoreUsed[0] == true) {
+        cout << "1. Aces = " << scores[1] << endl;
+    }
+    else {
+        cout << "1. Aces = " <<  endl;
+    }
+    if (scoreUsed[1] == true) {
+        cout << "2. Twos = " << scores[2] << endl;
+    }
+    else {
+        cout << "2. Twos = " <<  endl;
+    }    if (scoreUsed[2] == true) {
+        cout << "3. Threes = " << scores[3] << endl;
+    }
+    else {
+        cout << "3. Threes = " <<  endl;
+    }    if (scoreUsed[3] == true) {
+        cout << "4. Fours = " << scores[4] << endl;
+    }
+    else {
+        cout << "4. Fours = " <<  endl;
+    }    if (scoreUsed[4] == true) {
+        cout << "5. Fives = " << scores[5] << endl;
+    }
+    else {
+        cout << "5. Fives = " <<  endl;
+    }    if (scoreUsed[5] == true) {
+        cout << "6. Sixes = " << scores[6] << endl;
+    }
+    else {
+        cout << "6. Sixes = " <<  endl;
+    }
+    if (scoreUsed[6] == true) {
+        cout << "7. Threes of a Kind = " << scores[7] << endl;
+    }
+    else {
+        cout << "7. Threes of a Kind = " <<  endl;
+    }
+    if (scoreUsed[7] == true) {
+        cout << "8. Four of a Kind = " << scores[8] << endl;
+    }
+    else {
+        cout << "8. Four of a Kind = " <<  endl;
+    }
+    if (scoreUsed[8] == true) {
+        cout << "9. Full House = " << scores[9] << endl;
+    }
+    else {
+        cout << "9. Full House = " <<  endl;
+    }
+    if (scoreUsed[9] == true) {
+        cout << "10. Small Straight = " << scores[10] << endl;
+    }
+    else {
+        cout << "10. Small Straight = " <<  endl;
+    }
+    if (scoreUsed[10] == true) {
+        cout << "11. Large Straight = " << scores[11] << endl;
+    }
+    else {
+        cout << "11. Large Straight = " <<  endl;
+    }
+    if (scoreUsed[11] == true) {
+        cout << "12. Yahtzee = " << scores[12] << endl;
+    }
+    else {
+        cout << "12. Yahtzee = " <<  endl;
+    }
+    if (scoreUsed[12] == true) {
+        cout << "13. Chance = " << scores[13] << endl;
+    }
+    else {
+        cout << "13. Chance = " <<  endl;
+    }
+}
+
+int toptotal(vector<int>scores) {
+    int toptotal = 0;
+    for (int i = 0; i<6; i++) {
+        toptotal=toptotal + scores[i];
+    }
+    if (toptotal >= 63) {
+        toptotal = toptotal + 35;
+    }
+    return toptotal;
+}
+
+int bottomtotal(vector<int>scores) {
+    int bottomtotal = 0;
+    for (int i = 7; i<13; i++) {
+        bottomtotal=bottomtotal + scores[i];
+    }
+    return bottomtotal;
+}
 
 int main()
 {
-    cout << "Calculate Chance: " << calculateChance ({1, 4, 2, 5, 6}) << endl;
-    cout << "Calculate Aces: " << calculateAces ({6, 1, 3, 1, 1}) << endl;
-    cout << "Calculate Twos: " << calculateTwos ({4, 2, 2, 3, 6}) << endl;
-    cout << "Calculate Threes: " << calculateThrees ({3, 2, 3, 4, 3}) << endl;
-    cout << "Calculate Fours: " << calculateFours ({1, 6, 3, 5, 2}) << endl;
-    cout << "Calculate Fives: " << calculateFives ({1, 6, 3, 5, 2}) << endl;
-    cout << "Calculate Sixes: " << calculateSixes ({5, 6, 6, 3, 2}) << endl;
-    cout << "Calculate Yahtzee: " << calculateYahtzee ({4, 1, 2, 5, 3}) << endl;
-    cout << "How Many Do I have: " << howManyDoIHaveFunction ({3, 1, 2, 5, 3}, 3) << endl;
-    cout << "Three of a Kind: " << calculateThreeOfAKind ({2, 2, 2, 5, 3}) << endl;
-    cout << "Four of a Kind: " << calculateFourOfAKind ({3, 1, 2, 5, 3}) << endl;
-    cout << "Small Straight: " << calculateSmallStraight ({3, 1, 2, 5, 3}) << endl;
-    cout << "Large Straight: " << calculateLargeStraight ({3, 1, 2, 5, 4}) << endl;
-    cout << "Full House: " << calculateFullHouse ({3, 5, 2, 5, 6}) << endl;
+    int yahtzeeBonus = 0;
+    string enter;
+    srand(time (0));
+    cout << "Welcome to Yahtzee!" << endl;
+    cout << "Press ENTER to start.";
+    getline (cin, enter);
+
+    vector<int> scores(13);
+    vector<bool> scoreUsed(13);
+
+    for (int i = 0; i<13; i++) {
+        vector<int>dice = roll();
+        displaydice(dice);
+        dice = reRoll(dice);
+        displaydice(dice);
+        dice = reRoll(dice);
+        displaydice(dice);
+
+        if((scores[11] ==50) && (calculateScore(dice,12)==50)){
+            cout << "You got Yahtzee bonus" << endl;
+            yahtzeeBonus=yahtzeeBonus+100;
+        }
+        while (true){
+            displayScoreSheet(scores, scoreUsed);
+            cout << "Which rule would you like to use?" << endl;
+            int rulenum;
+            cin >> rulenum;
+            if (scoreUsed[rulenum - 1] == true) {
+                cout << "You already used this rule!" << endl;
+            }
+            if (scoreUsed[rulenum - 1] == false) {
+                cout << calculateScore(dice, rulenum) << endl;
+                scores[rulenum] = calculateScore(dice, rulenum);
+                scoreUsed[rulenum - 1] = true;
+                displayScoreSheet(scores, scoreUsed);
+                break;
+            }
+        }
+    }
+    int topt = toptotal(scores);
+    int bott = bottomtotal(scores);
+    int finalTot = topt + bott + yahtzeeBonus;
+    cout << "Your top total is: " << topt << endl;
+    cout << "Your bottom total is: " << bott << endl;
+    cout << "Your final total is: " << finalTot << endl;
+    cout << "Great job! " << endl;
     return 0;
 }
+
