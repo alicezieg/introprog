@@ -170,12 +170,14 @@ int calculateSmallStraight (vector<int>dice) {
     sort(dice.begin(), dice.end());
     if ((dice[0] == 1 && dice[1] == 2 && dice[2] == 3 && dice[3] == 4 ||
          dice[0] == 2 && dice[1] == 3 && dice[2] == 4 && dice[3] == 5 ||
-         dice[0] == 3 && dice[1] == 4 && dice[2] == 5 && dice[3] == 6)) {
+         dice[1] == 2 && dice[2] == 3 && dice[3] == 4 && dice[4] == 5 ||
+         dice[0] == 3 && dice[1] == 4 && dice[2] == 5 && dice[3] == 6 ||
+         dice[1] == 3 && dice[2] == 4 && dice[3] == 5 && dice[4] == 6 ||
+         dice[2] == 3 && dice[3] == 4 && dice[4] == 5 && dice[5] == 6 ||)) {
         score = score + 30;
     }
     return score;
 }
-// add the case where you have a double of a number it still works
 
 
 int calculateLargeStraight (vector<int>dice) {
@@ -287,12 +289,6 @@ vector<int> reRoll(vector<int>dice) {
 
             }
 
-//            cout << "Would you like to roll again?  " << "y/n" << endl;
-//            string z;
-//            cin >> z;
-//            if (z == "n") {
-//                return dice;
-//            }
         }
         else {
             if (z == "y") {
