@@ -68,7 +68,7 @@ int main(int argc, char* argv[])
         if (position.x<20 &&
                 position.y>g.mousePos().y &&
                 position.y<g.mousePos().y+100 &&
-                velocity.y > 0) {
+                velocity.x < 0) {
             velocity.x=-velocity.x+1;
             score = score + 100;
         }
