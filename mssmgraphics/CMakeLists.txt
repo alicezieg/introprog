@@ -14,7 +14,7 @@ cmake_minimum_required(VERSION 3.13.0)
 # sudo snap install --classic code
 
 # HEY!  Want to change the name of the project/executable?  Do it on the next line
-project(mssmGraphics2023 LANGUAGES CXX C)
+project(Pong LANGUAGES CXX C)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
