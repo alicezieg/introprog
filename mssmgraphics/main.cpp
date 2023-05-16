@@ -61,7 +61,7 @@ int main(int argc, char* argv[])
             velocity.x=-velocity.x;
         }
 
-        if (position.y>g.height()-25 || position.y<+25){
+        if (position.y>g.height()-25 || position.y<25){
             velocity.y=-velocity.y;
         }
 
